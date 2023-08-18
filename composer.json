@@ -6,7 +6,7 @@
   "require": {
     "composer/installers": "^1.0 || ^2.0",
     "php": ">=7.4.0",
-    "timber/timber": "^1.19"
+    "timber/timber": "^1.19 || ^2.0.0-rc.1"
   },
   "require-dev": {
     "wpackagist-plugin/advanced-custom-fields": "5.*",

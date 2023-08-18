@@ -46,7 +46,11 @@ class Timmy {
 		add_action( 'after_setup_theme', [ $self, 'after_setup_theme' ] );
 
 		// Add filters and functions to integrate Timmy into Timber and Twig.
-		add_filter( 'timber/twig', [ $self, 'filter_twig' ] );
+		if ( version_compare( \Timber\Timber::$version, '2.0.0', '>=' ) ) {
+			add_filter('timber/twig/filters', [ $self, 'filter_twig' ]);
+		} else  {
+			add_filter( 'timber/twig', [ $self, 'filter_twig_legacy' ] );
+		}
 
 		add_filter( 'timmy/resize/ignore', array( __CLASS__, 'ignore_unallowed_files' ), 10, 2 );
 	}
@@ -169,13 +173,41 @@ class Timmy {
 	}
 
 	/**
+	 * Adds Twig filters.
+	 *
+	 * @param array $filters
+	 *
+	 * @return array
+	 */
+	public function filter_twig( array $filters ) {
+		$filters['get_timber_image']                = [ 'callable' => 'get_timber_image' ];
+		$filters['get_timber_image_src']            = [ 'callable' => 'get_timber_image_src' ];
+		$filters['get_timber_image_srcset']         = [ 'callable' => 'get_timber_image_srcset' ];
+		$filters['get_timber_image_responsive']     = [ 'callable' => 'get_timber_image_responsive' ];
+		$filters['get_timber_image_responsive_src'] = [ 'callable' => 'get_timber_image_responsive_src' ];
+		$filters['get_timber_picture_responsive']   = [ 'callable' => 'get_timber_picture_responsive' ];
+		$filters['lazy']                            = [ 'callable' => 'make_timber_image_lazy' ];
+		$filters['get_timmy_image']                 = [ 'callable' => [ '\Timmy\Timmy', 'get_image' ] ];
+
+		// ACF.
+		$filters['get_timber_image_responsive_acf'] = [ 'callable' => 'get_timber_image_responsive_acf' ];
+
+		// Image texts.
+		$filters['get_timber_image_alt']         = [ 'callable' => 'get_timber_image_alt' ];
+		$filters['get_timber_image_caption']     = [ 'callable' => 'get_timber_image_caption' ];
+		$filters['get_timber_image_description'] = [ 'callable' => 'get_timber_image_description' ];
+
+		return $filters;
+	}
+
+	/**
 	 * Set filters to use Timmy filters and functions in Twig.
 	 *
 	 * @param \Twig\Environment $twig The Twig Environment instance.
 	 *
 	 * @return \Twig\Environment $twig
 	 */
-	public function filter_twig( $twig ) {
+	public function filter_twig_legacy( $twig ) {
 		$twig->addFilter( new Twig_Filter( 'get_timber_image', 'get_timber_image' ) );
 		$twig->addFilter( new Twig_Filter( 'get_timber_image_src', 'get_timber_image_src' ) );
 		$twig->addFilter( new Twig_Filter( 'get_timber_image_srcset', 'get_timber_image_srcset' ) );
