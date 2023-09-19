@@ -47,7 +47,8 @@ class Timmy {
 
 		// Add filters and functions to integrate Timmy into Timber and Twig.
 		if ( version_compare( \Timber\Timber::$version, '2.0.0', '>=' ) ) {
-			add_filter('timber/twig/filters', [ $self, 'filter_twig' ]);
+			add_filter('timber/twig/filters', [ $self, 'add_filters' ]);
+			add_filter('timber/twig/functions', [ $self, 'add_functions' ]);
 		} else  {
 			add_filter( 'timber/twig', [ $self, 'filter_twig_legacy' ] );
 		}
@@ -179,7 +180,7 @@ class Timmy {
 	 *
 	 * @return array
 	 */
-	public function filter_twig( array $filters ) {
+	public function add_filters( array $filters ): array {
 		$filters['get_timber_image']                = [ 'callable' => 'get_timber_image' ];
 		$filters['get_timber_image_src']            = [ 'callable' => 'get_timber_image_src' ];
 		$filters['get_timber_image_srcset']         = [ 'callable' => 'get_timber_image_srcset' ];
@@ -187,17 +188,29 @@ class Timmy {
 		$filters['get_timber_image_responsive_src'] = [ 'callable' => 'get_timber_image_responsive_src' ];
 		$filters['get_timber_picture_responsive']   = [ 'callable' => 'get_timber_picture_responsive' ];
 		$filters['lazy']                            = [ 'callable' => 'make_timber_image_lazy' ];
-		$filters['get_timmy_image']                 = [ 'callable' => [ '\Timmy\Timmy', 'get_image' ] ];
-
-		// ACF.
-		$filters['get_timber_image_responsive_acf'] = [ 'callable' => 'get_timber_image_responsive_acf' ];
-
-		// Image texts.
-		$filters['get_timber_image_alt']         = [ 'callable' => 'get_timber_image_alt' ];
-		$filters['get_timber_image_caption']     = [ 'callable' => 'get_timber_image_caption' ];
-		$filters['get_timber_image_description'] = [ 'callable' => 'get_timber_image_description' ];
 
 		return $filters;
+	}
+
+	/**
+	 * Adds Twig functions.
+	 *
+	 * @param array $functions
+	 *
+	 * @return array
+	 */
+	public function add_functions( array $functions ): array {
+		$functions['get_timmy_image']                 = [ 'callable' => [ '\Timmy\Timmy', 'get_image' ] ];
+
+		// ACF.
+		$functions['get_timber_image_responsive_acf'] = [ 'callable' => 'get_timber_image_responsive_acf' ];
+
+		// Image texts.
+		$functions['get_timber_image_alt']         = [ 'callable' => 'get_timber_image_alt' ];
+		$functions['get_timber_image_caption']     = [ 'callable' => 'get_timber_image_caption' ];
+		$functions['get_timber_image_description'] = [ 'callable' => 'get_timber_image_description' ];
+
+		return $functions;
 	}
 
 	/**
