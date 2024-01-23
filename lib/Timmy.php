@@ -3,8 +3,6 @@
 namespace Timmy;
 
 use Timber;
-use Timber\Twig_Filter;
-use Timber\Twig_Function;
 use WP_Post;
 
 /**
@@ -46,12 +44,8 @@ class Timmy {
 		add_action( 'after_setup_theme', [ $self, 'after_setup_theme' ] );
 
 		// Add filters and functions to integrate Timmy into Timber and Twig.
-		if ( version_compare( \Timber\Timber::$version, '2.0.0', '>=' ) ) {
-			add_filter('timber/twig/filters', [ $self, 'add_filters' ]);
-			add_filter('timber/twig/functions', [ $self, 'add_functions' ]);
-		} else  {
-			add_filter( 'timber/twig', [ $self, 'filter_twig_legacy' ] );
-		}
+		add_filter('timber/twig/filters', [ $self, 'add_filters' ]);
+		add_filter('timber/twig/functions', [ $self, 'add_functions' ]);
 
 		add_filter( 'timmy/resize/ignore', array( __CLASS__, 'ignore_unallowed_files' ), 10, 2 );
 	}
@@ -211,35 +205,6 @@ class Timmy {
 		$functions['get_timber_image_description'] = [ 'callable' => 'get_timber_image_description' ];
 
 		return $functions;
-	}
-
-	/**
-	 * Set filters to use Timmy filters and functions in Twig.
-	 *
-	 * @param \Twig\Environment $twig The Twig Environment instance.
-	 *
-	 * @return \Twig\Environment $twig
-	 */
-	public function filter_twig_legacy( $twig ) {
-		$twig->addFilter( new Twig_Filter( 'get_timber_image', 'get_timber_image' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_image_src', 'get_timber_image_src' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_image_srcset', 'get_timber_image_srcset' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_image_responsive', 'get_timber_image_responsive' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_image_responsive_src', 'get_timber_image_responsive_src' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_picture_responsive', 'get_timber_picture_responsive' ) );
-
-		$twig->addFilter( new Twig_Filter( 'lazy', 'make_timber_image_lazy' ) );
-
-		$twig->addFunction( new Twig_Function( 'get_timmy_image', [ '\Timmy\Timmy', 'get_image' ] ) );
-
-		$twig->addFunction( new Twig_Function( 'get_timber_image_responsive_acf', 'get_timber_image_responsive_acf' ) );
-
-		// Image texts.
-		$twig->addFunction( new Twig_Function( 'get_timber_image_alt', 'get_timber_image_alt' ) );
-		$twig->addFunction( new Twig_Function( 'get_timber_image_caption', 'get_timber_image_caption' ) );
-		$twig->addFunction( new Twig_Function( 'get_timber_image_description', 'get_timber_image_description' ) );
-
-		return $twig;
 	}
 
 	/**
@@ -731,10 +696,10 @@ class Timmy {
 	 */
 	public static function get_timber_image( $timber_image ) {
 		if ( is_numeric( $timber_image ) ) {
-			$timber_image = new Timber\Image( $timber_image );
+			$timber_image = Timber::get_image( $timber_image );
 		} elseif ( is_array( $timber_image ) && isset( $timber_image['ID'] ) ) {
 			// Convert an ACF image array into a Timber image.
-			$timber_image = new Timber\Image( $timber_image['ID'] );
+			$timber_image = Timber::get_image( $timber_image['ID'] );
 		}
 
 		// Check if non-empty TimberImage was found before returning it.

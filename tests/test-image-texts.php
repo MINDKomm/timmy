@@ -18,7 +18,7 @@ class TestImageTexts extends TimmyUnitTestCase {
 		$this->set_description( $attachment->ID, $description );
 
 		// Reload attachment to get updated values.
-		$attachment = new Image( $attachment->ID );
+		$attachment = Timber::get_image( $attachment->ID );
 
 		$result = get_timber_image_texts( $attachment, 'large' );
 
