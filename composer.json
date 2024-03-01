@@ -5,7 +5,7 @@
   "license": "MIT",
   "require": {
     "composer/installers": "^1.0 || ^2.0",
-    "php": ">=7.4.0",
+    "php": "^7.4 || ^8.0",
     "timber/timber": "^2.0"
   },
   "require-dev": {
