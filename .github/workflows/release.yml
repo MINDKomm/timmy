@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 1.x
-      - 1.x-release-workflow
 
 permissions:
   contents: write
