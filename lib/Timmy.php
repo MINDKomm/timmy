@@ -12,13 +12,6 @@ use WP_Post;
  */
 class Timmy {
 	/**
-	 * Timmy version.
-	 *
-	 * @var string
-	 */
-	const VERSION = '1.0.0';
-
-	/**
 	 * Image sizes that can be selected in the backend.
 	 *
 	 * @var array
