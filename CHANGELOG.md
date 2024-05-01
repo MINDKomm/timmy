@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/mindkomm/timmy/compare/v1.1.0...v1.1.1) (2024-05-01)
+
+
+### Miscellaneous Chores
+
+* Update release branches ([512efea](https://github.com/mindkomm/timmy/commit/512efea0307beed7994fb8bb8d4652097a6c763f))
+
 ## [1.1.0](https://github.com/mindkomm/timmy/compare/1.0.0...v1.1.0) (2024-03-26)
 
 
