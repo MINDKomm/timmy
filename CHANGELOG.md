@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.0.0](https://github.com/mindkomm/timmy/compare/v1.1.0...v2.0.0) (2024-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Remove Timmy::VERSION constant
+* Add compatibility with Timber 2.x
+
+### Features
+
+* Add compatibility with Timber 2.x ([1687f3f](https://github.com/mindkomm/timmy/commit/1687f3f036ac7862d37a95a2445f297a4d55f218))
+* Remove Timmy::VERSION constant ([031548b](https://github.com/mindkomm/timmy/commit/031548b849c4219dd7c21b7d9aa062779373cf69))
+
+
+### Miscellaneous Chores
+
+* Merge 1.x branch into 2.x ([2ec5254](https://github.com/mindkomm/timmy/commit/2ec52540b95f538d7b4e06ac51ea37e11fcea438))
+* Update release branches ([512efea](https://github.com/mindkomm/timmy/commit/512efea0307beed7994fb8bb8d4652097a6c763f))
+
 ## [1.1.0](https://github.com/mindkomm/timmy/compare/1.0.0...v1.1.0) (2024-03-26)
 
 
