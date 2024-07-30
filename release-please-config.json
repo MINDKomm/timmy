@@ -6,7 +6,7 @@
   "pull-request-header": "Release-please has created a release",
   "packages": {
     ".": {
-      "changelog-path": "CHANGELOG.md",
+      "changelog-path": "CHANGELOG.md"
     }
   }
 }
