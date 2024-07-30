@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.1](https://github.com/mindkomm/timmy/compare/v2.0.0...v2.0.1) (2024-07-30)
+
+
+### Bug Fixes
+
+* Improve compatibility with Timber v2 ([7a2a2b6](https://github.com/mindkomm/timmy/commit/7a2a2b6f9df3a7cc9ff26c36f955a690fbdecb97))
+
+
+### Miscellaneous Chores
+
+* Fix JSON format for release-please-config.json ([7235e7b](https://github.com/mindkomm/timmy/commit/7235e7bab51275ae505620f08fb8d0c4102d7377))
+* Update release-please ([ed7e1bb](https://github.com/mindkomm/timmy/commit/ed7e1bb9977e74a23bee975b74fd963af7e40985))
+
 ## [2.0.0](https://github.com/mindkomm/timmy/compare/v1.1.0...v2.0.0) (2024-05-08)
 
 
