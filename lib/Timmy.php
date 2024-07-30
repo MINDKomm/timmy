@@ -129,7 +129,7 @@ class Timmy {
 			return $attachment;
 		}
 
-		if ( $attachment instanceof WP_Post || $attachment instanceof Timber\Image ) {
+		if ( $attachment instanceof WP_Post || $attachment instanceof Timber\Attachment ) {
 			$attachment = $attachment->ID;
 		} elseif ( is_array( $attachment ) && isset( $attachment['ID'] ) ) {
 			// Get ID from ACF image array.
