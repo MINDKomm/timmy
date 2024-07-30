@@ -1,13 +1,12 @@
 {
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "php",
+  "prerelease": false,
+  "draft": true,
+  "pull-request-header": "Release-please has created a release",
   "packages": {
     ".": {
       "changelog-path": "CHANGELOG.md",
-      "release-type": "php",
-      "bump-minor-pre-major": false,
-      "bump-patch-for-minor-pre-major": false,
-      "draft": true,
-      "prerelease": false
     }
-  },
-  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
+  }
 }
