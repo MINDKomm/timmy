@@ -136,10 +136,6 @@ class Timmy {
 			$attachment = (int) $attachment['ID'];
 		}
 
-		if ( 'attachment' !== get_post_type( $attachment ) ) {
-			return null;
-		}
-
 		$class      = apply_filters( 'timmy/image/class', Image::class );
 		$size_array = $size;
 
