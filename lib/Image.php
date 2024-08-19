@@ -76,7 +76,7 @@ class Image {
 	 *
 	 * @var array
 	 */
-	protected $svg_dimensions = [];
+	protected array $svg_dimensions = [];
 
 	final protected function __construct() {
 	}
@@ -991,7 +991,7 @@ class Image {
 	 */
 	public function svg_dimensions() {
 		if ( empty( $this->svg_dimensions ) ) {
-			$this->svg_dimensions = Helper::get_svg_dimensions( $this->path() );
+			$this->svg_dimensions = Helper::get_svg_dimensions( $this->path() ) ?: [];
 		}
 
 		return $this->svg_dimensions;
