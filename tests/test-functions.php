@@ -36,7 +36,7 @@ class TestFunctions extends TimmyUnitTestCase {
 	}
 
 	public function test_get_timber_image_src_non_image() {
-		$result = get_timber_image_src( 'gaga', 'large' );
+		$result = get_timber_image_src( 0, 'large' );
 
 		$this->assertEquals( false, $result );
 	}
@@ -64,7 +64,7 @@ class TestFunctions extends TimmyUnitTestCase {
 	}
 
 	public function test_get_timber_image_non_image() {
-		$result = get_timber_image( 'gaga', 'large' );
+		$result = get_timber_image( 0, 'large' );
 
 		$this->assertEquals( false, $result );
 	}
@@ -373,7 +373,7 @@ class TestFunctions extends TimmyUnitTestCase {
 	}
 
 	public function test_get_timber_image_srcset_non_image() {
-		$result = get_timber_image_srcset( 'gaga', 'large' );
+		$result = get_timber_image_srcset( 0, 'large' );
 
 		$this->assertEquals( false, $result );
 	}
