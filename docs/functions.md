@@ -12,6 +12,7 @@ You can use the following functions to get your images into your template:
 
 ## Responsive images
 
+* [get_timber_picture_responsive()](#get_timber_picture_responsive) – Returns the picture markup used for modern image formats using a fallback source.
 * [get_timber_image_responsive()](#get_timber_image_responsive) – Returns the srcset, size and alt attributes for an image.
 * [get_timber_image_responsive_src()](#get_timber_image_responsive_src) – Returns the srcset and sizes for an image. This is practically the same as *get_timber_image_responsive*, just without the alt tag.
 * [get_timber_image_responsive_acf()](#get_timber_image_responsive_acf) – Takes the field name of an ACF image as the input and returns the same output as *get_timber_image_responsive()*.
@@ -125,6 +126,55 @@ Returns the image height for an image size. If you use the [lazy loading functio
 
 ```twig
 <img height="{{ post.thumbnail|get_timber_image_height('header') }}">
+```
+
+---
+
+## get_timber_picture_responsive
+
+`get_timber_picture_responsive( int|Timber\Image $timber_image, string $size, array $args = [] )`
+
+Gets the picture markup used for modern image formats using a fallback source.
+
+### Usage in WordPress templates
+
+```php
+<picture>
+    <?php echo get_timber_picture_responsive( get_post_thumbnail_id(), 'custom-6' ); ?>
+</picture>
+```
+
+### Usage in Twig
+
+```twig
+<picture>
+    {{ post.thumbnail|get_timber_picture_responsive('custom-6') }}
+</picture>
+```
+
+### img_class
+
+If you want to define the CSS class for the fallback `<img>`, you can use the `img_class` parameter.
+
+**PHP**
+
+```php
+
+<picture>
+    <?php echo get_timber_picture_responsive( get_post_thumbnail_id(), 'custom-6', [
+        'img_class' => 'the-class',
+    ] ); ?>
+</picture>
+```
+
+**Twig**
+
+```twig
+<picture>
+    {{ post.thumbnail|get_timber_picture_responsive('custom-6', {
+        img_class: 'the-class',
+    }) }}
+</picture>
 ```
 
 ---
