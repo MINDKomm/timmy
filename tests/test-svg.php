@@ -16,6 +16,25 @@ class TestSvg extends TimmyUnitTestCase {
 	}
 
 	/**
+	 * Tests whether we still get the image src without an error, even if the
+	 * SVG file is missing.
+	 *
+	 * @since 2.1.0
+	 */
+	public function test_get_timber_image_full_with_svg_inexistent() {
+		$attachment = $this->create_image( [ 'file' => 'sveegee.svg' ] );
+
+		if (file_exists($attachment->file_loc())) {
+			unlink($attachment->file_loc());
+		}
+
+		$result = get_timber_image( $attachment, 'full' );
+		$image = ' src="' . $this->get_upload_url() . '/sveegee.svg" alt=""';
+
+		$this->assertEquals( $image, $result );
+	}
+
+	/**
 	 * Tests whether we get the full src of an SVG with size large.
 	 *
 	 * @since 0.14.4
