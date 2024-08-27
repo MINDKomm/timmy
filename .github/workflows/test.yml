@@ -38,7 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ['7.4']
-        wp: ['5.5', 'latest']
+        wp: ['6.1', 'latest']
         multisite: ['0', '1']
         dependency-version: [prefer-stable] # prefer-lowest
         webp: [false]
