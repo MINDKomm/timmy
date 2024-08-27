@@ -496,6 +496,10 @@ class Helper {
 	 * @return array|null
 	 */
 	public static function get_svg_dimensions( $svg ) {
+        if ( ! file_exists( $svg ) ) {
+            return null;
+        }
+
 		$svg    = simplexml_load_file( $svg );
 		$width  = 0;
 		$height = 0;
