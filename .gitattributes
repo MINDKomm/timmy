@@ -5,7 +5,7 @@
 /CHANGELOG.md export-ignore
 /README.md export-ignore
 /bin export-ignore
-/composer.json export-ignore
 /docs export-ignore
 /phpunit.xml.dist export-ignore
+/release-please-config.json export-ignore
 /tests export-ignore

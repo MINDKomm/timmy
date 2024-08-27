@@ -1,7 +1,7 @@
 <?php
 
 use Timber\Image;
-use Timber\Post;
+use Timber\Timber;
 use Yoast\WPTestUtils\WPIntegration\TestCase;
 
 /**
@@ -148,7 +148,7 @@ abstract class TimmyUnitTestCase extends TestCase {
 			$this->set_description( $attachment_id, $args['description'] );
 		}
 
-		return new Image( $attachment_id );
+		return Timber::get_image( $attachment_id );
 	}
 
 	/**
@@ -160,7 +160,7 @@ abstract class TimmyUnitTestCase extends TestCase {
 
 		set_post_thumbnail( $post_id, $attachment_id );
 
-		$post = new Post( $post_id );
+		$post = Timber::get_post( $post_id );
 
 		return $post;
 	}

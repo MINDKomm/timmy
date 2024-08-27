@@ -1,5 +1,51 @@
 # Changelog
 
+## [2.0.1](https://github.com/mindkomm/timmy/compare/v2.0.0...v2.0.1) (2024-07-30)
+
+
+### Bug Fixes
+
+* Improve compatibility with Timber v2 ([7a2a2b6](https://github.com/mindkomm/timmy/commit/7a2a2b6f9df3a7cc9ff26c36f955a690fbdecb97))
+
+
+### Miscellaneous Chores
+
+* Fix JSON format for release-please-config.json ([7235e7b](https://github.com/mindkomm/timmy/commit/7235e7bab51275ae505620f08fb8d0c4102d7377))
+* Update release-please ([ed7e1bb](https://github.com/mindkomm/timmy/commit/ed7e1bb9977e74a23bee975b74fd963af7e40985))
+
+## [2.0.0](https://github.com/mindkomm/timmy/compare/v1.1.0...v2.0.0) (2024-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Remove Timmy::VERSION constant
+* Add compatibility with Timber 2.x
+
+### Features
+
+* Add compatibility with Timber 2.x ([1687f3f](https://github.com/mindkomm/timmy/commit/1687f3f036ac7862d37a95a2445f297a4d55f218))
+* Remove Timmy::VERSION constant ([031548b](https://github.com/mindkomm/timmy/commit/031548b849c4219dd7c21b7d9aa062779373cf69))
+
+
+### Miscellaneous Chores
+
+* Merge 1.x branch into 2.x ([2ec5254](https://github.com/mindkomm/timmy/commit/2ec52540b95f538d7b4e06ac51ea37e11fcea438))
+* Update release branches ([512efea](https://github.com/mindkomm/timmy/commit/512efea0307beed7994fb8bb8d4652097a6c763f))
+
+## [1.1.0](https://github.com/mindkomm/timmy/compare/1.0.0...v1.1.0) (2024-03-26)
+
+
+### Features
+
+* Optimize filter priority for deleting and generating image sizes ([2ec4013](https://github.com/mindkomm/timmy/commit/2ec40134fb81f13e95b6cb90c4a51da5daae3476))
+
+
+### Bug Fixes
+
+* Add release workflow ([#64](https://github.com/mindkomm/timmy/issues/64)) ([54b4d5e](https://github.com/mindkomm/timmy/commit/54b4d5ebeafa7127f12349a28435d440280ab73b))
+* Always export composer.json ([142efa9](https://github.com/mindkomm/timmy/commit/142efa97614325fa74d5570545268227275c3915))
+* Fix a PHP 8.1 deprecation ([cbce1f2](https://github.com/mindkomm/timmy/commit/cbce1f26aaa37701cd7f7bc6c4b1cccd0ee6ead9))
+
 ## 1.0.0
 
 - Increased minimum supported PHP version to 7.4.

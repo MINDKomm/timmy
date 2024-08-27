@@ -3,8 +3,6 @@
 namespace Timmy;
 
 use Timber;
-use Timber\Twig_Filter;
-use Timber\Twig_Function;
 use WP_Post;
 
 /**
@@ -13,13 +11,6 @@ use WP_Post;
  * @package Timmy
  */
 class Timmy {
-	/**
-	 * Timmy version.
-	 *
-	 * @var string
-	 */
-	const VERSION = '1.0.0';
-
 	/**
 	 * Image sizes that can be selected in the backend.
 	 *
@@ -46,7 +37,8 @@ class Timmy {
 		add_action( 'after_setup_theme', [ $self, 'after_setup_theme' ] );
 
 		// Add filters and functions to integrate Timmy into Timber and Twig.
-		add_filter( 'timber/twig', [ $self, 'filter_twig' ] );
+		add_filter('timber/twig/filters', [ $self, 'add_filters' ]);
+		add_filter('timber/twig/functions', [ $self, 'add_functions' ]);
 
 		add_filter( 'timmy/resize/ignore', array( __CLASS__, 'ignore_unallowed_files' ), 10, 2 );
 	}
@@ -101,8 +93,9 @@ class Timmy {
 		// Filters the metadata for an image.
 		add_filter( 'wp_get_attachment_metadata', array( $this, 'filter_attachment_metadata' ), 10, 2 );
 
-		// Filters the generated attachment meta data.
-		add_filter( 'wp_generate_attachment_metadata', array( $this, 'filter_wp_generate_attachment_metadata' ), 10, 2 );
+		// Hook into generating attachment meta data filter.
+		add_filter( 'wp_generate_attachment_metadata', array( $this, 'delete_generated_image_sizes' ), 5, 2 );
+		add_filter( 'wp_generate_attachment_metadata', array( $this, 'filter_wp_generate_attachment_metadata' ), 30, 2 );
 
 		// Filters the attachment data prepared for JavaScript.
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_wp_prepare_attachment_for_js' ), 10, 3 );
@@ -136,7 +129,7 @@ class Timmy {
 			return $attachment;
 		}
 
-		if ( $attachment instanceof WP_Post || $attachment instanceof Timber\Image ) {
+		if ( $attachment instanceof WP_Post || $attachment instanceof Timber\Attachment ) {
 			$attachment = $attachment->ID;
 		} elseif ( is_array( $attachment ) && isset( $attachment['ID'] ) ) {
 			// Get ID from ACF image array.
@@ -168,32 +161,43 @@ class Timmy {
 	}
 
 	/**
-	 * Set filters to use Timmy filters and functions in Twig.
+	 * Adds Twig filters.
 	 *
-	 * @param \Twig\Environment $twig The Twig Environment instance.
+	 * @param array $filters
 	 *
-	 * @return \Twig\Environment $twig
+	 * @return array
 	 */
-	public function filter_twig( $twig ) {
-		$twig->addFilter( new Twig_Filter( 'get_timber_image', 'get_timber_image' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_image_src', 'get_timber_image_src' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_image_srcset', 'get_timber_image_srcset' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_image_responsive', 'get_timber_image_responsive' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_image_responsive_src', 'get_timber_image_responsive_src' ) );
-		$twig->addFilter( new Twig_Filter( 'get_timber_picture_responsive', 'get_timber_picture_responsive' ) );
+	public function add_filters( array $filters ): array {
+		$filters['get_timber_image']                = [ 'callable' => 'get_timber_image' ];
+		$filters['get_timber_image_src']            = [ 'callable' => 'get_timber_image_src' ];
+		$filters['get_timber_image_srcset']         = [ 'callable' => 'get_timber_image_srcset' ];
+		$filters['get_timber_image_responsive']     = [ 'callable' => 'get_timber_image_responsive' ];
+		$filters['get_timber_image_responsive_src'] = [ 'callable' => 'get_timber_image_responsive_src' ];
+		$filters['get_timber_picture_responsive']   = [ 'callable' => 'get_timber_picture_responsive' ];
+		$filters['lazy']                            = [ 'callable' => 'make_timber_image_lazy' ];
 
-		$twig->addFilter( new Twig_Filter( 'lazy', 'make_timber_image_lazy' ) );
+		return $filters;
+	}
 
-		$twig->addFunction( new Twig_Function( 'get_timmy_image', [ '\Timmy\Timmy', 'get_image' ] ) );
+	/**
+	 * Adds Twig functions.
+	 *
+	 * @param array $functions
+	 *
+	 * @return array
+	 */
+	public function add_functions( array $functions ): array {
+		$functions['get_timmy_image']                 = [ 'callable' => [ '\Timmy\Timmy', 'get_image' ] ];
 
-		$twig->addFunction( new Twig_Function( 'get_timber_image_responsive_acf', 'get_timber_image_responsive_acf' ) );
+		// ACF.
+		$functions['get_timber_image_responsive_acf'] = [ 'callable' => 'get_timber_image_responsive_acf' ];
 
 		// Image texts.
-		$twig->addFunction( new Twig_Function( 'get_timber_image_alt', 'get_timber_image_alt' ) );
-		$twig->addFunction( new Twig_Function( 'get_timber_image_caption', 'get_timber_image_caption' ) );
-		$twig->addFunction( new Twig_Function( 'get_timber_image_description', 'get_timber_image_description' ) );
+		$functions['get_timber_image_alt']         = [ 'callable' => 'get_timber_image_alt' ];
+		$functions['get_timber_image_caption']     = [ 'callable' => 'get_timber_image_caption' ];
+		$functions['get_timber_image_description'] = [ 'callable' => 'get_timber_image_description' ];
 
-		return $twig;
+		return $functions;
 	}
 
 	/**
@@ -314,22 +318,22 @@ class Timmy {
 	}
 
 	/**
-	 * Hooks into the filter that generates additional image sizes to generate all additional image
-	 * sizes with TimberImageHelper.
+	 * Deletes all existing image sizes for that file.
 	 *
-	 * This function will run when you upload an image. It will also run if you run Regenerate
-	 * Thumbnails, so all additional images sizes registered with Timber will be first deleted and
-	 * then regenerated through Timmy.
+	 * This function will run when you upload an image. It will also run if you
+	 * run plugins like Regenerate Thumbnails. All additional images sizes
+	 * registered with Timber will be first deleted.
 	 *
-	 * @param array $meta_data     Meta data for an attachment.
-	 * @param int   $attachment_id Attachment ID.
+	 * Because Timber also creates image sizes when they’re needed, we can
+	 * safely do this.
 	 *
-	 * @return array $meta_data
+	 * By running with a priority of 5, we make sure that generated image files
+	 * are not present before other plugins run their filters.
 	 */
-	public function filter_wp_generate_attachment_metadata( $meta_data, $attachment_id ) {
+	public function delete_generated_image_sizes( $meta_data, $attachment_id ) {
 		/**
-		 * Don’t automatically generate image sizes on upload for SVG and GIF images.
-		 * GIF images will still be resized when requested on the fly.
+		 * Don’t automatically generate image sizes on upload for SVG and GIF
+		 * images. GIF images will still be resized when requested on the fly.
 		 */
 		if ( self::ignore_attachment( $attachment_id ) ) {
 			return $meta_data;
@@ -338,16 +342,37 @@ class Timmy {
 		// Timber needs the file src as a URL.
 		$file_src = Helper::get_original_attachment_url( $attachment_id );
 
-		$attachment = get_post( $attachment_id );
-
-		/**
-		 * Delete all existing image sizes for that file.
-		 *
-		 * This way, when Regenerate Thumbnails will be used, all non-registered image sizes will be
-		 * deleted as well. Because Timber creates image sizes when they’re needed, we can safely do
-		 * this.
-		 */
 		Timber\ImageHelper::delete_generated_files( $file_src );
+
+		return $meta_data;
+	}
+
+	/**
+	 * Hooks into the filter that generates additional image sizes to generate
+	 * all additional image sizes with TimberImageHelper.
+	 *
+	 * This function will run when you upload an image. It will also run if you
+	 * run a plugin like Regenerate Thumbnails. All additional images sizes
+	 * registered with Timber will be regenerated through Timmy.
+	 *
+	 * By running this with a priority of 30, we make sure that image sizes are
+	 * generated after other plugins have run their filters.
+	 *
+	 * @param array $meta_data     Meta data for an attachment.
+	 * @param int   $attachment_id Attachment ID.
+	 *
+	 * @return array $meta_data
+	 */
+	public function filter_wp_generate_attachment_metadata( $meta_data, $attachment_id ) {
+		/**
+		 * Don’t automatically generate image sizes on upload for SVG and GIF
+		 * images. GIF images will still be resized when requested on the fly.
+		 */
+		if ( self::ignore_attachment( $attachment_id ) ) {
+			return $meta_data;
+		}
+
+		$attachment = get_post( $attachment_id );
 
 		$meta_data['sizes'] = $this->generate_image_sizes( $attachment );
 
@@ -438,7 +463,7 @@ class Timmy {
 
 		// When media files are requested through an AJAX call, an action will be present in $_POST.
 		$action = is_admin() && isset( $_POST['action'] )
-			? filter_var( $_POST['action'], FILTER_SANITIZE_STRING )
+			? htmlspecialchars( $_POST['action'] )
 			: false;
 
 		$attachment = get_post( $attachment_id );
@@ -664,10 +689,10 @@ class Timmy {
 	 */
 	public static function get_timber_image( $timber_image ) {
 		if ( is_numeric( $timber_image ) ) {
-			$timber_image = new Timber\Image( $timber_image );
+			$timber_image = Timber::get_image( $timber_image );
 		} elseif ( is_array( $timber_image ) && isset( $timber_image['ID'] ) ) {
 			// Convert an ACF image array into a Timber image.
-			$timber_image = new Timber\Image( $timber_image['ID'] );
+			$timber_image = Timber::get_image( $timber_image['ID'] );
 		}
 
 		// Check if non-empty TimberImage was found before returning it.

@@ -100,11 +100,10 @@ class TestTimmy extends TimmyUnitTestCase {
 	}
 
 	public function test_timmy_ignores_pdf() {
-		$attachment = $this->create_image( [ 'file' => 'example.pdf' ] );
-		$result     = image_downsize( $attachment->ID );
+		$attachment_id = $this->create_image_attachment( 0, 'example.pdf' );
+		$result = image_downsize( $attachment_id );
 
-		$image = false;
-		$this->assertEquals( $image, $result );
+		$this->assertFalse( $result );
 	}
 
 	public function test_timmy_ignores_svg() {
@@ -121,12 +120,10 @@ class TestTimmy extends TimmyUnitTestCase {
 	}
 
 	public function test_timmy_ignores_video() {
-		$attachment = $this->create_image( [ 'file' => 'video.mp4' ] );
-		$result     = image_downsize( $attachment->ID );
+		$attachment_id = $this->create_image_attachment( 0, 'video.mp4' );
+		$result = image_downsize( $attachment_id );
 
-		$image = false;
-
-		$this->assertEquals( $image, $result );
+		$this->assertFalse( $result );
 	}
 
 	public function test_timmy_ignores_svg_when_generating_metadata() {
@@ -146,9 +143,9 @@ class TestTimmy extends TimmyUnitTestCase {
 	}
 
 	public function test_timmy_ignores_video_when_generating_metadata() {
-		$attachment = $this->create_image( [ 'file' => 'video.mp4' ] );
-		$file_src   = get_attached_file( $attachment->ID );
-		$meta       = wp_generate_attachment_metadata( $attachment->ID, $file_src );
+		$attachment_id = $this->create_image_attachment( 0, 'video.mp4' );
+		$file_src   = get_attached_file( $attachment_id );
+		$meta       = wp_generate_attachment_metadata( $attachment_id, $file_src );
 
 		$this->assertArrayNotHasKey( 'sizes', $meta );
 	}
