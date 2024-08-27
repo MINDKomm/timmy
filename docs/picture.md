@@ -26,6 +26,16 @@ You will use a `<picture>` element instead of an `<img>`
 </picture>
 ```
 
+If you want to add a CSS class to the fallback `<img>`, then you can use the `img_class` parameter:
+
+```twig
+<picture>
+    {{ post.thumbnail|get_timber_picture_responsive('webp-picture', {
+        img_class: 'the-class'
+    }) }}
+</picture>
+```
+
 ### Art directed picture with fallbacks
 
 To be implemented …

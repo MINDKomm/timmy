@@ -85,4 +85,25 @@ class TestPicture extends TimmyUnitTestCase {
 
 		$this->assertEquals( $expected, $result );
 	}
+
+	/**
+	 * @since 2.1.0
+	 * @return void
+	 */
+	public function test_picture_img_class() {
+		$alt_text   = 'Burrito Wrap';
+		$attachment = $this->create_image( [
+			'alt'         => $alt_text,
+			'description' => 'Burritolino',
+		] );
+		$result = get_timber_picture_responsive( $attachment, 'picture', ['img_class' => 'the-class'] );
+
+		$expected = sprintf(
+			'<source srcset="%1$s/test-560x0-c-default.jpg 560w, %1$s/test-1400x0-c-default.jpg 1400w" sizes="100vw">%2$s<img src="%1$s/test-1400x0-c-default.jpg" width="1400" height="933" alt="Burrito Wrap" loading="lazy" class="the-class">',
+			$this->get_upload_url(),
+			PHP_EOL
+		);
+
+		$this->assertEquals( $expected, $result );
+	}
 }
