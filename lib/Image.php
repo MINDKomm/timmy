@@ -336,6 +336,7 @@ class Image {
 		 */
 		$default_args = [
 			'loading' => 'lazy',
+			'img_class' => '',
 		];
 
 		$args = wp_parse_args( $args, $default_args );
@@ -348,8 +349,8 @@ class Image {
 			'loading' => $this->loading( $args['loading'] ),
 		];
 
-		if (!empty($args['class'])) {
-			$fallback_attributes['class'] = $args['class'];
+		if (!empty($args['img_class'])) {
+			$fallback_attributes['class'] = $args['img_class'];
 		}
 
 		$fallback_attributes = $this->add_data_attributes( $fallback_attributes, $args );
