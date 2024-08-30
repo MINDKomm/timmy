@@ -136,6 +136,15 @@ class Timmy {
 			$attachment = (int) $attachment['ID'];
 		}
 
+		// Check if we work with a WordPress post. This doesn’t necessarily have
+		// to be an attachment, that’s why we don’t check for the 'attachment'
+		// post type.
+		$wp_post = \get_post( $attachment );
+
+		if ( ! $wp_post ) {
+			return null;
+		}
+
 		$class      = apply_filters( 'timmy/image/class', Image::class );
 		$size_array = $size;
 
