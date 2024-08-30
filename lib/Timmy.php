@@ -136,7 +136,12 @@ class Timmy {
 			$attachment = (int) $attachment['ID'];
 		}
 
-		if ( 'attachment' !== get_post_type( $attachment ) ) {
+		// Check if we work with a WordPress post. This doesn’t necessarily have
+		// to be an attachment, that’s why we don’t check for the 'attachment'
+		// post type.
+		$wp_post = \get_post( $attachment );
+
+		if ( ! $wp_post ) {
 			return null;
 		}
 
