@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/mindkomm/timmy/compare/v2.0.1...v2.1.0) (2024-08-30)
+
+
+### Features
+
+* Add img_class argument for get_timber_picture_responsive() ([#84](https://github.com/mindkomm/timmy/issues/84)) ([efcf332](https://github.com/mindkomm/timmy/commit/efcf332c76945e896d5021e809a8df0fb34372a6))
+* Remove check for attachment post type that can’t be overridden ([#85](https://github.com/mindkomm/timmy/issues/85)) ([13574be](https://github.com/mindkomm/timmy/commit/13574be3f2e83788e155fcb1c6f7ab19ad443c36))
+
+
+### Bug Fixes
+
+* Prevent using simplexml_load_file() on missing file ([#83](https://github.com/mindkomm/timmy/issues/83)) ([f45456e](https://github.com/mindkomm/timmy/commit/f45456e41bfba4ded6323c6cdcd78080222fe81c))
+
 ## [2.0.1](https://github.com/mindkomm/timmy/compare/v2.0.0...v2.0.1) (2024-07-30)
 
 
