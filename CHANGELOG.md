@@ -1,5 +1,46 @@
 # Changelog
 
+## [3.0.0](https://github.com/mindkomm/timmy/compare/v2.1.1...v3.0.0) (2024-09-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* Remove Timmy::VERSION constant
+* Add compatibility with Timber 2.x
+
+### Features
+
+* Add compatibility for Timber 2.0 ([262447d](https://github.com/mindkomm/timmy/commit/262447de3afb49f9605a84f17e65656b6ed96f70))
+* Add compatibility with Timber 2.x ([1687f3f](https://github.com/mindkomm/timmy/commit/1687f3f036ac7862d37a95a2445f297a4d55f218))
+* Add img_class argument for get_timber_picture_responsive() ([#84](https://github.com/mindkomm/timmy/issues/84)) ([efcf332](https://github.com/mindkomm/timmy/commit/efcf332c76945e896d5021e809a8df0fb34372a6))
+* Optimize filter priority for deleting and generating image sizes ([2ec4013](https://github.com/mindkomm/timmy/commit/2ec40134fb81f13e95b6cb90c4a51da5daae3476))
+* Remove check for attachment post type that can’t be overridden ([#85](https://github.com/mindkomm/timmy/issues/85)) ([13574be](https://github.com/mindkomm/timmy/commit/13574be3f2e83788e155fcb1c6f7ab19ad443c36))
+* Remove Timmy::VERSION constant ([031548b](https://github.com/mindkomm/timmy/commit/031548b849c4219dd7c21b7d9aa062779373cf69))
+
+
+### Bug Fixes
+
+* Add release workflow ([#64](https://github.com/mindkomm/timmy/issues/64)) ([54b4d5e](https://github.com/mindkomm/timmy/commit/54b4d5ebeafa7127f12349a28435d440280ab73b))
+* Always export composer.json ([142efa9](https://github.com/mindkomm/timmy/commit/142efa97614325fa74d5570545268227275c3915))
+* Fix a PHP 8.1 deprecation ([cbce1f2](https://github.com/mindkomm/timmy/commit/cbce1f26aaa37701cd7f7bc6c4b1cccd0ee6ead9))
+* Fix bug when Timmy::get_image() is called with null as the attachment parameter ([d1d102c](https://github.com/mindkomm/timmy/commit/d1d102c1d2fe654ef3fe0defa423e1ca7f77112e))
+* Fix tests with Timber 2.0 ([1dd3189](https://github.com/mindkomm/timmy/commit/1dd3189f374a921cc7cb1443a0df4bb36eed5205))
+* Improve compatibility with Timber v2 ([7a2a2b6](https://github.com/mindkomm/timmy/commit/7a2a2b6f9df3a7cc9ff26c36f955a690fbdecb97))
+* Prevent using simplexml_load_file() on missing file ([#83](https://github.com/mindkomm/timmy/issues/83)) ([f45456e](https://github.com/mindkomm/timmy/commit/f45456e41bfba4ded6323c6cdcd78080222fe81c))
+
+
+### Miscellaneous Chores
+
+* **1.x:** release 1.1.0 ([a6145b8](https://github.com/mindkomm/timmy/commit/a6145b829429e0eb3a05e0e4b992ecd1360ee3b7))
+* **2.x:** release 2.0.0 ([b185649](https://github.com/mindkomm/timmy/commit/b185649dc56836e074ba74b1666644b0cc092912))
+* **2.x:** release 2.0.1 ([#80](https://github.com/mindkomm/timmy/issues/80)) ([59b1f82](https://github.com/mindkomm/timmy/commit/59b1f821366f020f71021852a3015f1be034924a))
+* **2.x:** release 2.1.0 ([#81](https://github.com/mindkomm/timmy/issues/81)) ([f8089b9](https://github.com/mindkomm/timmy/commit/f8089b91e85c09bb29031bf7f1b1383a17e98b96))
+* **2.x:** release 2.1.1 ([#86](https://github.com/mindkomm/timmy/issues/86)) ([972a24c](https://github.com/mindkomm/timmy/commit/972a24c9abe11a34e9b3e950d44b44c5171046d0))
+* Fix JSON format for release-please-config.json ([7235e7b](https://github.com/mindkomm/timmy/commit/7235e7bab51275ae505620f08fb8d0c4102d7377))
+* Merge 1.x branch into 2.x ([2ec5254](https://github.com/mindkomm/timmy/commit/2ec52540b95f538d7b4e06ac51ea37e11fcea438))
+* Update release branches ([512efea](https://github.com/mindkomm/timmy/commit/512efea0307beed7994fb8bb8d4652097a6c763f))
+* Update release-please ([ed7e1bb](https://github.com/mindkomm/timmy/commit/ed7e1bb9977e74a23bee975b74fd963af7e40985))
+
 ## [2.1.1](https://github.com/mindkomm/timmy/compare/v2.1.0...v2.1.1) (2024-09-03)
 
 
