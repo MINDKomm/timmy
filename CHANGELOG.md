@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/mindkomm/timmy/compare/v2.1.0...v2.1.1) (2024-09-03)
+
+
+### Bug Fixes
+
+* Fix bug when Timmy::get_image() is called with null as the attachment parameter ([d1d102c](https://github.com/mindkomm/timmy/commit/d1d102c1d2fe654ef3fe0defa423e1ca7f77112e))
+
 ## [2.1.0](https://github.com/mindkomm/timmy/compare/v2.0.1...v2.1.0) (2024-08-30)
 
 
